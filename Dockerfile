@@ -1,4 +1,4 @@
-FROM node:16.20.2
+FROM node:20.11.1
 
 # Establecer el directorio de trabajo en /app
 WORKDIR /app
