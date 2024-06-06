@@ -17,8 +17,8 @@ pipeline {
             steps {
                 script {
                     docker.image(DOCKER_IMAGE).inside {
+                        sh 'npm config set cache /tmp/.npm-cache --global'
                         sh 'npm install'
-                        sh 'npm install jest'
                         sh 'npm test'
                     }
                 }
