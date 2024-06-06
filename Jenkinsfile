@@ -3,15 +3,22 @@ pipeline {
     stages {
         stage('Check Docker') {
             steps {
-                sh 'docker --version'
+                script {
+                    try {
+                        sh 'sudo systemctl start docker'
+                        sh 'sudo systemctl enable docker'
+                        sh 'docker --version'
+                    } catch (Exception e) {
+                        error "Docker is not running or not installed"
+                    }
+                }
             }
         }
         stage('Check Repository') {
             steps {
                 script {
-                    // Si no existe el directorio, realiza un git pull
                     echo 'Cloning...'
-                    sh 'git pull https://github.com/Max-500/nodejs-docker-jenkins-pipelines.git'
+                    sh 'git pull https://github.com/AlanCruz10/soa-test.git'
                 }
             }
         }
@@ -38,8 +45,6 @@ pipeline {
             steps {
                 echo 'Testing...'
                 sh 'npm install'
-                sh 'npm install --production'
-                sh 'npm install mocha'
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     sh 'npm test'
                 }
