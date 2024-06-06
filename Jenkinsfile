@@ -18,6 +18,8 @@ pipeline {
                 script {
                     docker.image(DOCKER_IMAGE).inside {
                         sh 'npm install'
+                        sh 'npm install --production'
+                        sh 'npm install mocha'
                         sh 'npm test'
                     }
                 }
