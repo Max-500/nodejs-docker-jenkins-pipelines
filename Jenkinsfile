@@ -9,6 +9,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
+                    // Construir la imagen Docker
                     docker.build(DOCKER_IMAGE)
                 }
             }
@@ -20,7 +21,7 @@ pipeline {
                     sh 'docker stop node-hello-world || true'
                     sh 'docker rm node-hello-world || true'
                     
-                    // Desplegar el nuevo contenedor usando la sintaxis simplificada
+                    // Desplegar el nuevo contenedor usando la imagen construida
                     docker.image(DOCKER_IMAGE).run('-d -p 3000:3000 --name node-hello-world')
                 }
             }
