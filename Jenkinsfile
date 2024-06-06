@@ -25,19 +25,19 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    def imageId = sh(script: 'sudo docker images -q soa-deploy:latest', returnStdout: true).trim()
+                    def imageId = sh(script: 'docker images -q soa-deploy:latest', returnStdout: true).trim()
                     if (imageId != "") {
-                        def containerId = sh(script: 'sudo docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
+                        def containerId = sh(script: 'docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
                         if (containerId != "") {
-                            sh "sudo docker stop soa-deploy-test"
-                            sh "sudo docker rm soa-deploy-test"
-                            sh "sudo docker rmi soa-deploy:latest"
+                            sh "docker stop soa-deploy-test"
+                            sh "docker rm soa-deploy-test"
+                            sh "docker rmi soa-deploy:latest"
                         } else {
-                            sh "sudo docker rmi soa-deploy:latest"
+                            sh "docker rmi soa-deploy:latest"
                         }
                     }
                     echo 'Building Docker image and running tests...'
-                    sh "sudo docker build -t soa-deploy:latest ."
+                    sh "docker build -t soa-deploy:latest ."
                 }
             }
         }
