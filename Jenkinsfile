@@ -16,14 +16,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Elimina el contenedor existente si lo hay
-                    sh 'docker rm -f node-hello-world || true'
-                    // Despliega el nuevo contenedor
-                    sh 'docker run -d -p 3000:3000 --name node-hello-world my-node-app'
-                    // Verifica que el archivo index.js esté presente en el contenedor
-                    sh 'docker exec node-hello-world ls -la /app'
-                    // Verifica los logs del contenedor
-                    sh 'docker logs node-hello-world'
+                    // Detener y eliminar cualquier contenedor que esté usando el puerto 3000
+                    sh 'docker stop node-hello-world || true'
+                    sh 'docker rm node-hello-world || true'
+                    
+                    // Desplegar el nuevo contenedor usando la sintaxis simplificada
+                    docker.image(DOCKER_IMAGE).run('-d -p 3000:3000 --name node-hello-world')
                 }
             }
         }
