@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     docker.image(DOCKER_IMAGE).inside {
-                        sh 'sudo npm test'
+                        sh 'npm test'
                     }
                 }
             }
