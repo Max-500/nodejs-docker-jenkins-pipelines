@@ -16,8 +16,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.image(DOCKER_IMAGE).inside('-u root') {
-                        sh 'npm config set cache /tmp/.npm-cache --global'
+                    docker.image(DOCKER_IMAGE).inside {
                         sh 'npm install'
                         sh 'npm test'
                     }
