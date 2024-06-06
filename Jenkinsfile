@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning...'
-                    sh 'git pull https://github.com/AlanCruz10/soa-test.git'
+                    sh 'git pull https://github.com/Max-500/nodejs-docker-jenkins-pipelines.git'
                 }
             }
         }
