@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'node-hello-world'
+        DOCKER_IMAGE = 'my-node-app'
     }
 
     stages {
@@ -19,7 +19,7 @@ pipeline {
                     // Elimina el contenedor existente si lo hay
                     sh 'docker rm -f node-hello-world || true'
                     // Despliega el nuevo contenedor
-                    sh 'docker run -d -p 3000:3000 --name node-hello-world node-hello-world'
+                    sh 'docker run -d -p 3000:3000 --name node-hello-world my-node-app'
                     // Verifica que el archivo index.js esté presente en el contenedor
                     sh 'docker exec node-hello-world ls -la /app'
                     // Verifica los logs del contenedor
