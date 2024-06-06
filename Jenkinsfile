@@ -16,15 +16,12 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                script {
-                    // Detener y eliminar cualquier contenedor que esté usando el puerto 3000
-                    sh 'docker stop node-hello-world || true'
-                    sh 'docker rm node-hello-world || true'
-                    
+                script {                    
                     // Desplegar el nuevo contenedor usando la imagen construida
-                    docker.image(DOCKER_IMAGE).run('-d -p 3000:3000 --name node-hello-world')
+                    sh "docker run -d -p 3000:3000 --name node-hello-world $DOCKER_IMAGE"
                 }
             }
         }
     }
 }
+

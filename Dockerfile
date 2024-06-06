@@ -16,4 +16,4 @@ EXPOSE 3000
 # Ejecuta los tests durante el build y si fallan, el build fallará
 RUN npm test
 
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
