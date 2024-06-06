@@ -4,12 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN npm cache clean --force
 RUN npm install
+RUN npm test
 
 COPY . .
-
-# Ejecuta los tests durante el build y si fallan, el build fallará
-RUN npm test
 
 EXPOSE 3000
 
