@@ -9,7 +9,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "mocha": "^9.0.0",
-    "supertest": "^6.1.6"
+    "supertest": "^6.1.6",
+    "methods": "^1.1.2"
   },
   "author": "",
   "license": "ISC"
