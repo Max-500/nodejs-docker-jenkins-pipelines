@@ -6,6 +6,10 @@ app.get('/api/v1/welcome', (req, res) => {
     res.send('Hello, World!');
 });
 
+app.get('/api/v1/welcome', (req, res) => {
+    res.send('Welcome to the updated Node.js application!');
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
