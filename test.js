@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http');
+const request = require('http').request;
 
 const app = express();
 
@@ -9,30 +9,39 @@ app.get('/hello', (req, res) => {
 
 describe('GET /hello', () => {
   let server;
-
   beforeAll((done) => {
-    server = http.createServer(app);
-    server.listen(done);
+    server = app.listen(4000, done); // Inicia el servidor en el puerto 4000 antes de todas las pruebas
   });
 
   afterAll((done) => {
-    server.close(done);
+    server.close(done); // Cierra el servidor después de todas las pruebas
   });
 
-  it('responds with Hello World', async () => {
-    const response = await new Promise((resolve, reject) => {
-      http.get(`http://localhost:${server.address().port}/hello`, (res) => {
-        let data = '';
-        res.on('data', (chunk) => {
-          data += chunk;
-        });
-        res.on('end', () => {
-          resolve({ statusCode: res.statusCode, body: data });
-        });
-      }).on('error', reject);
+  it('responds with Hello World', (done) => {
+    const options = {
+      hostname: 'localhost',
+      port: 4000,
+      path: '/hello',
+      method: 'GET',
+    };
+
+    const req = request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        expect(data).toBe('Hello World');
+        expect(res.statusCode).toBe(200);
+        done();
+      });
     });
 
-    expect(response.body).toBe('Hello World');
-    expect(response.statusCode).toBe(200);
+    req.on('error', (err) => {
+      done(err);
+    });
+
+    req.end();
   });
 });
