@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'my-node-app'
+        DOCKER_IMAGE = 'hello'
     }
 
     stages {
@@ -22,7 +22,7 @@ pipeline {
                     sh 'docker rm node-hello-world || true'
                     
                     // Desplegar el nuevo contenedor usando la imagen construida
-                    sh "docker run -d -p 3000:3000 --name node-hello-world $DOCKER_IMAGE"
+                    docker.image(DOCKER_IMAGE).run('-d -p 3000:3000')
                 }
             }
         }
