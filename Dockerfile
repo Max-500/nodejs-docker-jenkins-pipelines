@@ -1,18 +1,19 @@
+# Usar la versión específica de Node.js
 FROM node:20.11.1
 
-# Establecer el directorio de trabajo en /app
+# Crear y establecer el directorio de trabajo
 WORKDIR /app
 
 # Copiar package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar todas las dependencias, incluidas las de desarrollo
-RUN npm install
+# Instalar las dependencias de npm
+RUN npm install --verbose
 
 # Copiar el resto del código de la aplicación
 COPY . .
 
-# Exponer el puerto 3000
+# Exponer el puerto de la aplicación
 EXPOSE 3000
 
 # Comando para ejecutar la aplicación
