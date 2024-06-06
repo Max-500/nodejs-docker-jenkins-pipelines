@@ -1,5 +1,5 @@
 const express = require('express');
-const request = require('http').request;
+const http = require('http');
 
 const app = express();
 
@@ -9,6 +9,7 @@ app.get('/hello', (req, res) => {
 
 describe('GET /hello', () => {
   let server;
+
   beforeAll((done) => {
     server = app.listen(4000, done); // Inicia el servidor en el puerto 4000 antes de todas las pruebas
   });
@@ -25,7 +26,7 @@ describe('GET /hello', () => {
       method: 'GET',
     };
 
-    const req = request(options, (res) => {
+    const req = http.request(options, (res) => {
       let data = '';
       res.on('data', (chunk) => {
         data += chunk;
@@ -45,3 +46,4 @@ describe('GET /hello', () => {
     req.end();
   });
 });
+
