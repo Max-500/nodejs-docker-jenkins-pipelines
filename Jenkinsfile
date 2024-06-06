@@ -22,7 +22,7 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Build and Test') {
             steps {
                 script {
                     def imageId = sh(script: 'docker images -q soa-deploy:latest', returnStdout: true).trim()
@@ -36,17 +36,8 @@ pipeline {
                             sh "docker rmi soa-deploy:latest"
                         }
                     }
-                    echo 'Building Docker image...'
+                    echo 'Building Docker image and running tests...'
                     sh "docker build -t soa-deploy:latest ."
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing...'
-                sh 'npm install'
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    sh 'npm test'
                 }
             }
         }
@@ -63,7 +54,7 @@ pipeline {
             }
         }
         failure {
-            echo 'Build failed. No deployment will be done.'
+            echo 'Build or tests failed. No deployment will be done.'
         }
     }
 }
