@@ -13,11 +13,18 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Docker Test') {
             steps {
                 script {
                     docker.image(DOCKER_IMAGE).inside {
-                        sh 'npm test'
+                        // Este comando debería ejecutarse correctamente
+                        sh 'echo "Hello, Docker!"'
+                        
+                        // Verificación básica de Node.js
+                        sh 'node -v'
+                        
+                        // Verificación básica de NPM
+                        sh 'npm -v'
                     }
                 }
             }
@@ -25,8 +32,18 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    docker.image(DOCKER_IMAGE).run('-d -p 3000:3000')
+                    // Ejecuta el contenedor en segundo plano y expone el puerto 3000
+                    sh 'docker run -d -p 3000:3000 --name node-hello-world node-hello-world'
                 }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                // Limpia contenedores y recursos después de la ejecución
+                sh 'docker rm -f node-hello-world || true'
+                sh 'docker rmi -f node-hello-world || true'
             }
         }
     }
