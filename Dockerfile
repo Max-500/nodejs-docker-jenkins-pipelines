@@ -1,4 +1,4 @@
-FROM node:20.11.1
+FROM node:16
 
 WORKDIR /app
 
@@ -15,8 +15,5 @@ EXPOSE 3000
 
 # Ejecuta los tests durante el build y si fallan, el build fallará
 RUN npm test
-
-RUN ls -la /app  
-# Verifica que index.js esté presente
 
 CMD ["node", "index.js"]

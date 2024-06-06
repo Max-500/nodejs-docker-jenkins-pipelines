@@ -20,6 +20,10 @@ pipeline {
                     sh 'docker rm -f node-hello-world || true'
                     // Despliega el nuevo contenedor
                     sh 'docker run -d -p 3000:3000 --name node-hello-world node-hello-world'
+                    // Verifica que el archivo index.js esté presente en el contenedor
+                    sh 'docker exec node-hello-world ls -la /app'
+                    // Verifica los logs del contenedor
+                    sh 'docker logs node-hello-world'
                 }
             }
         }
