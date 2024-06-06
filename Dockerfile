@@ -9,8 +9,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm test
-
 EXPOSE 3000
+
+RUN npm test
 
 CMD ["node", "app.js"]
