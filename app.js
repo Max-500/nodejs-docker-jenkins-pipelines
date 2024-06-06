@@ -6,7 +6,7 @@ app.use(express.json());
 
 
 app.get('/api/v1/welcome', (req, res) => {
-  res.status(200).json({ message: 'Welcome to this Api ya 4' });
+  res.status(200).json({ message: 'Welcome Bitch!!!' });
 });
 
 const PORT = 3000;
