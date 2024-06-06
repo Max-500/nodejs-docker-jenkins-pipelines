@@ -7,7 +7,7 @@ pipeline {
                     try {
                         // sh 'sudo systemctl start docker'
                         // sh 'sudo systemctl enable docker'
-                        sh 'docker --version'
+                        sh 'sudo docker --version'
                     } catch (Exception e) {
                         error "Docker is not running or not installed"
                     }
@@ -25,19 +25,19 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    def imageId = sh(script: 'docker images -q soa-deploy:latest', returnStdout: true).trim()
+                    def imageId = sh(script: 'sudo docker images -q soa-deploy:latest', returnStdout: true).trim()
                     if (imageId != "") {
-                        def containerId = sh(script: 'docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
+                        def containerId = sh(script: 'sudo docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
                         if (containerId != "") {
-                            sh "docker stop soa-deploy-test"
-                            sh "docker rm soa-deploy-test"
-                            sh "docker rmi soa-deploy:latest"
+                            sh "sudo docker stop soa-deploy-test"
+                            sh "sudo docker rm soa-deploy-test"
+                            sh "sudo docker rmi soa-deploy:latest"
                         } else {
-                            sh "docker rmi soa-deploy:latest"
+                            sh "sudo docker rmi soa-deploy:latest"
                         }
                     }
                     echo 'Building Docker image and running tests...'
-                    sh "docker build -t soa-deploy:latest ."
+                    sh "sudo docker build -t soa-deploy:latest ."
                 }
             }
         }
@@ -45,12 +45,12 @@ pipeline {
     post {
         success {
             script {
-                def containerRunning = sh(script: 'docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
+                def containerRunning = sh(script: 'sudo docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
                 if (containerRunning) {
-                    sh "docker stop soa-deploy-test"
-                    sh "docker rm soa-deploy-test"
+                    sh "sudo docker stop soa-deploy-test"
+                    sh "sudo docker rm soa-deploy-test"
                 }
-                sh "docker run -d -p 3000:3000 --name soa-deploy-test soa-deploy:latest"
+                sh "sudo docker run -d -p 3000:3000 --name soa-deploy-test soa-deploy:latest"
             }
         }
         failure {
