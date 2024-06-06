@@ -4,15 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test.js"
+    "test": "jest"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "mocha": "^9.0.0",
-    "supertest": "^6.1.6",
-    "methods": "^1.1.2"
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.0"
   },
   "author": "",
   "license": "ISC"
 }
-
