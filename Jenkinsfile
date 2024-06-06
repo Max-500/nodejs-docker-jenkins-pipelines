@@ -5,8 +5,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'sudo systemctl start docker'
-                        sh 'sudo systemctl enable docker'
+                        // sh 'sudo systemctl start docker'
+                        // sh 'sudo systemctl enable docker'
                         sh 'docker --version'
                     } catch (Exception e) {
                         error "Docker is not running or not installed"
