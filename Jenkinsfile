@@ -19,6 +19,7 @@ pipeline {
                     docker.image(DOCKER_IMAGE).inside {
                         sh 'npm install'
                         sh 'npm install --production'
+                        sh 'npm config set cache /tmp/.npm-cache --global'
                         sh 'npm install mocha'
                         sh 'npm test'
                     }
