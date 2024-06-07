@@ -5,8 +5,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        //sh 'sudo systemctl start docker'
-                        //sh 'sudo systemctl enable docker'
+                        // sh 'sudo systemctl start docker'
+                        // sh 'sudo systemctl enable docker'
                         sh 'docker --version'
                     } catch (Exception e) {
                         error "Docker is not running or not installed"
@@ -29,10 +29,12 @@ pipeline {
                     if (imageId != "") {
                         def containerId = sh(script: 'docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
                         if (containerId != "") {
-                            sh "docker stop soa-deploy-test || true"
-                            sh "docker rm soa-deploy-test || true"
+                            sh "docker stop soa-deploy-test"
+                            sh "docker rm soa-deploy-test"
+                            sh "docker rmi soa-deploy:latest"
+                        } else {
+                            sh "docker rmi soa-deploy:latest"
                         }
-                        sh "docker rmi -f soa-deploy:latest || true"  // Forzando la eliminación de la imagen
                     }
                     echo 'Building Docker image and running tests...'
                     sh "docker build -t soa-deploy:latest ."
@@ -45,8 +47,8 @@ pipeline {
             script {
                 def containerRunning = sh(script: 'docker ps -q -f name=soa-deploy-test', returnStdout: true).trim()
                 if (containerRunning) {
-                    sh "docker stop soa-deploy-test || true"
-                    sh "docker rm soa-deploy-test || true"
+                    sh "docker stop soa-deploy-test"
+                    sh "docker rm soa-deploy-test"
                 }
                 sh "docker run -d -p 3000:3000 --name soa-deploy-test soa-deploy:latest"
             }
