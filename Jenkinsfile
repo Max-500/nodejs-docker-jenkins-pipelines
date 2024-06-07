@@ -5,8 +5,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        // sh 'sudo systemctl start docker'
-                        // sh 'sudo systemctl enable docker'
+                        //sh 'sudo systemctl start docker'
+                        //sh 'sudo systemctl enable docker'
                         sh 'docker --version'
                     } catch (Exception e) {
                         error "Docker is not running or not installed"
@@ -31,9 +31,9 @@ pipeline {
                         if (containerId != "") {
                             sh "docker stop soa-deploy-test"
                             sh "docker rm soa-deploy-test"
-                            sh "docker rmi soa-deploy:latest"
+                            sh "docker rmi -f soa-deploy:latest"  // Forzando la eliminación de la imagen
                         } else {
-                            sh "docker rmi soa-deploy:latest"
+                            sh "docker rmi -f soa-deploy:latest"  // Forzando la eliminación de la imagen
                         }
                     }
                     echo 'Building Docker image and running tests...'
